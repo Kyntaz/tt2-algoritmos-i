@@ -3,6 +3,10 @@
 #include <algorithm>
 #include <climits>
 
+int sumBetween(std::vector<int>& cumulative, int i, int j) {
+    return cumulative[j] - cumulative[i - 1];
+}
+
 int main() {
     int n;
     std::cin >> n;
@@ -18,10 +22,16 @@ int main() {
     }
 
     int max = INT_MIN;
-    for (int i = 1; i < cumulative.size(); i++) {
-        for (int j = 1; j <= i; j++) {
-            int subtotal = cumulative[i] - cumulative[j - 1];
-            max = std::max(max, subtotal);
+    int i = 1;
+    int j = n;
+    while (j >= i) {
+        max = std::max(max, sumBetween(cumulative, i, j));
+        int nI = sumBetween(cumulative, i + 1, j);
+        int nJ = sumBetween(cumulative, i, j - 1);
+        if (nI > nJ) {
+            i++;
+        } else {
+            j--;
         }
     }
 

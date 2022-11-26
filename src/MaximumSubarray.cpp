@@ -1,40 +1,26 @@
 #include <iostream>
-#include <vector>
 #include <algorithm>
-#include <climits>
+#include <vector>
 
-int sumBetween(std::vector<int>& cumulative, int i, int j) {
-    return cumulative[j] - cumulative[i - 1];
-}
+typedef long long number;
 
 int main() {
-    int n;
+    number n;
     std::cin >> n;
 
-    std::vector<int> cumulative(n + 1);
-    cumulative[0] = 0;
-    int sum = 0;
-    for (int i = 0; i < n; i++) {
-        int curr;
-        std::cin >> curr;
-        sum += curr;
-        cumulative[i+1] = sum;
+    number n;
+    std::vector<number> v(n);
+    for (number i = 0; i < n; i++) {
+        std::cin >> v[i];
     }
 
-    int max = INT_MIN;
-    int i = 1;
-    int j = n;
-    while (j >= i) {
-        max = std::max(max, sumBetween(cumulative, i, j));
-        int nI = sumBetween(cumulative, i + 1, j);
-        int nJ = sumBetween(cumulative, i, j - 1);
-        if (nI > nJ) {
-            i++;
-        } else {
-            j--;
-        }
+    number currSum = 0;
+    number maxSum = v[0];
+    for (number i = 0; i < n; i++) {
+        currSum = std::max(currSum + v[i], v[i]);
+        maxSum = std::max(currSum, maxSum);
     }
 
-    std::cout << max << std::endl;
+    std::cout << maxSum << std::endl;
     return 0;
 }
